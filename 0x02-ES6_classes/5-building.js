@@ -8,7 +8,7 @@ class Building {
     }
 
     evacuationWarningMessage() {
-        throw new Error('Class extending Building must override evacuationWarningMessage');
+        throw new Error("evacuationWarningMessage method must be implemented by subclass");
     }
 }
 

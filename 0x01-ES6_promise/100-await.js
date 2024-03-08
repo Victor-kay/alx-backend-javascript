@@ -1,16 +1,10 @@
-import uploadPhoto from './uploadPhoto.js';
-import createUser from './createUser.js';
+// 100-await.js
+import { uploadPhoto, createUser } from './utils.js';
 
 async function asyncUploadUser() {
   try {
-    const photoPromise = uploadPhoto("photo.jpg");
-    const userPromise = createUser();
-
-    const [photoResponse, userResponse] = await Promise.allSettled([photoPromise, userPromise]);
-
-    const photo = photoResponse.status === 'fulfilled' ? photoResponse.value : null;
-    const user = userResponse.status === 'fulfilled' ? userResponse.value : null;
-
+    const photo = await uploadPhoto();
+    const user = await createUser();
     return { photo, user };
   } catch (error) {
     console.error("An error occurred:", error);

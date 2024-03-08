@@ -8,9 +8,12 @@ export default async function handleProfileSignup(firstName, lastName, fileName)
 
     const [userResult, photoResult] = await Promise.allSettled([userPromise, photoPromise]);
 
+    const userStatus = userResult.status === 'fulfilled' ? 'success' : 'failure';
+    const photoStatus = photoResult.status === 'fulfilled' ? 'success' : 'failure';
+
     return [
-      { status: userResult.status, value: userResult.status === 'fulfilled' ? userResult.value : userResult.reason },
-      { status: photoResult.status, value: photoResult.status === 'fulfilled' ? photoResult.value : photoResult.reason }
+      { status: userStatus, value: userResult.status === 'fulfilled' ? userResult.value : userResult.reason },
+      { status: photoStatus, value: photoResult.status === 'fulfilled' ? photoResult.value : photoResult.reason }
     ];
   } catch (error) {
     throw new Error(error);

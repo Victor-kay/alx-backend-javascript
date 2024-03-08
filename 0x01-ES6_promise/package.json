@@ -12,8 +12,8 @@
     "dev": "node 8-main.js"
     "dev": "node 9-main.js"
     "dev": "node 100-main.js"
-
   },
+
   "devDependencies": {
     "@babel/core": "^7.6.0",
     "@babel/node": "^7.8.0",

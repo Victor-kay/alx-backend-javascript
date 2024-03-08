@@ -1,9 +1,7 @@
-import uploadPhoto from './5-photo-reject.js';
-
-uploadPhoto('guillaume.jpg')
-    .then(response => {
-        console.log(response);
-    })
-    .catch(error => {
-        console.error(error.message);
-    });
+export default function uploadPhoto(filename) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject(new Error(`${filename} cannot be processed`));
+    }, 1000);
+  });
+}

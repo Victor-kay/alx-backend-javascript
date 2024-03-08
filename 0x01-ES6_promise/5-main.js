@@ -1,3 +1,4 @@
-import uploadPhoto from './5-photo-reject';
+import uploadPhoto from './5-photo-reject.js';
 
-console.log(uploadPhoto('guillaume.jpg'));
+uploadPhoto('guillaume.jpg')
+  .catch(error => console.error(error));

@@ -1,7 +1,18 @@
 {
   "type": "module",
-  "scripts": {
+  "scripts": {	
+    "dev": "node 0-main.js"
     "dev": "node 1-main.js"
+    "dev": "node 2-main.js"
+    "dev": "node 3-main.js"
+    "dev": "node 4-main.js"
+    "dev": "node 5-main.js"
+    "dev": "node 6-main.js"
+    "dev": "node 7-main.js"
+    "dev": "node 8-main.js"
+    "dev": "node 9-main.js"
+    "dev": "node 100-main.js"
+
   },
   "devDependencies": {
     "@babel/core": "^7.6.0",

@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "Basic test with Mocha and Node assertion library",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha --require=chai/register-expect.js ./2-calcul_chai.test.js"
   },
   "devDependencies": {
+    "chai": "^5.1.0",
     "mocha": "^9.2.2"
   }
 }

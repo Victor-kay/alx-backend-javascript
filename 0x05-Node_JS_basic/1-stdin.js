@@ -1,18 +1,11 @@
-// 1-stdin.js
+process.stdout.write('Welcome to Holberton School, what is your name?\n');
 
-console.log("Welcome to Holberton School, what is your name?");
-
-process.stdin.setEncoding('utf8');
-
-process.stdin.on('data', function(data) {
-  const input = data.trim();
-  if (input) {
-    console.log(`Your name is: ${input}`);
-  }
-  else {
-    console.log("This important software is now closing");
-    process.exit();
-  }
+process.stdin.on('data', (data) => {
+    const name = data.toString().trim();
+    process.stdout.write(`Your name is: ${name}\n`);
+    process.stdin.end();  // End the input stream
 });
 
-module.exports = process;
+process.stdin.on('end', () => {
+    process.stdout.write('This important software is now closing\n');
+});

@@ -1,11 +1,13 @@
-process.stdout.write('Welcome to Holberton School, what is your name?\n');
+iprocess.stdout.write('Welcome to Holberton School, what is your name?\n');
 
 process.stdin.on('data', (data) => {
     const name = data.toString().trim();
     process.stdout.write(`Your name is: ${name}\n`);
-    process.stdin.end();  // End the input stream
 });
 
 process.stdin.on('end', () => {
     process.stdout.write('This important software is now closing\n');
 });
+
+// Ensure the stdin stream stays open to receive input
+process.stdin.resume();

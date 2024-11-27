@@ -1,13 +1,25 @@
-iprocess.stdout.write('Welcome to Holberton School, what is your name?\n');
+const readline = require('readline');
 
-process.stdin.on('data', (data) => {
-    const name = data.toString().trim();
-    process.stdout.write(`Your name is: ${name}\n`);
+// Create an interface to read from stdin and write to stdout
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
 });
 
-process.stdin.on('end', () => {
-    process.stdout.write('This important software is now closing\n');
+// Display the initial prompt to the user
+process.stdout.write('Welcome to Holberton School, what is your name?\n');
+
+// Using `rl.question` to read input
+rl.question('', (name) => {
+  // Once the user provides their name, display the output message
+  console.log(`Your name is: ${name}`);
+  
+  // Close the readline interface and exit the program
+  rl.close();
 });
 
-// Ensure the stdin stream stays open to receive input
-process.stdin.resume();
+// Handle the exit event to print the final message
+process.on('exit', () => {
+  console.log('This important software is now closing');
+});
+

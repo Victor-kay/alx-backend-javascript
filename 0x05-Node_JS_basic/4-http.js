@@ -1,21 +1,18 @@
-// 4-http.js
-
 const http = require('http');
 
-// Create the HTTP server
+// Create a server that listens on port 1245
 const app = http.createServer((req, res) => {
-  // Set the response header
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
-
-  // Write the response body
+  // Set the response header to indicate it's plain text
+  res.setHeader('Content-Type', 'text/plain');
+  
+  // Write the response body with the desired message
   res.end('Hello Holberton School!\n');
 });
 
-// Listen on port 1245
-const PORT = 1245;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+// Make the server listen on port 1245
+app.listen(1245, () => {
+  console.log('Server is listening on port 1245');
 });
 
-// Export the app variable
+// Export the app to allow testing
 module.exports = app;

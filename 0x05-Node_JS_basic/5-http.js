@@ -1,40 +1,48 @@
-// 5-http.js
-
 const http = require('http');
-const { countStudents } = require('./3-read_file_async');
+const fs = require('fs');
+const path = require('path');
+const countStudents = require('./3-read_file_async'); // Import the async function for reading the CSV
 
 // Create the HTTP server
 const app = http.createServer((req, res) => {
-  // Set the response header
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  // Set the response header for plain text
+  res.setHeader('Content-Type', 'text/plain');
 
-  // Determine the requested URL path
-  const { url } = req;
-  
-  if (url === '/') {
-    // Return "Hello Holberton School!" for the root path
+  // Route for the root URL "/"
+  if (req.url === '/') {
     res.end('Hello Holberton School!\n');
-  } else if (url === '/students') {
-    // Return the list of students for the /students path
-    countStudents(process.argv[2])
+  }
+  // Route for "/students"
+  else if (req.url === '/students') {
+    const databasePath = process.argv[2]; // Get the database path from command-line arguments
+
+    // Check if the database file is passed
+    if (!databasePath) {
+      res.statusCode = 400;
+      res.end('Error: Database file is required.\n');
+      return;
+    }
+
+    // Read the database file asynchronously
+    countStudents(databasePath)
       .then(() => {
-        res.end();
+        res.end('Done!\n');
       })
-      .catch((error) => {
-        res.end(error.message);
+      .catch((err) => {
+        res.statusCode = 500;
+        res.end(`Error: ${err.message}\n`);
       });
   } else {
-    // Return a 404 Not Found error for other paths
-    res.writeHead(404);
-    res.end('404 Not Found\n');
+    // Handle undefined routes
+    res.statusCode = 404;
+    res.end('Not Found\n');
   }
 });
 
-// Listen on port 3000
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+// Make the server listen on port 1245
+app.listen(1245, () => {
+  console.log('Server is listening on port 1245');
 });
 
-// Export the app variable
+// Export the app for testing or other purposes
 module.exports = app;

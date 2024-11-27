@@ -1,47 +1,52 @@
-// 2-read_file.js
-
 const fs = require('fs');
 
-/**
- * Counts the number of students in each field and logs the result.
- * @param {string} path - The path to the database file.
- */
 function countStudents(path) {
   try {
-    // Read the database file synchronously
-    const data = fs.readFileSync(path, 'utf8');
-    
-    // Split the data into lines and filter out any empty lines
+    // Read the file content synchronously
+    const data = fs.readFileSync(path, 'utf-8');
+
+    // Split the content into lines and filter out empty lines
     const lines = data.split('\n').filter(line => line.trim() !== '');
-    
-    // Initialize an object to store the counts for each field
-    const counts = {};
-    
-    // Iterate through each line (student record) in the database
-    for (const line of lines) {
-      // Split the line into fields
-      const [firstName, lastName, age, field] = line.split(',');
-      
-      // If the field is not already in the counts object, initialize its count to 0
-      if (!counts[field]) {
-        counts[field] = 0;
+
+    // The first line is the header, so we don't need to process it for student data
+    const [header, ...students] = lines;
+
+    // Split the header to ensure it has the expected columns
+    const headers = header.split(',');
+    if (headers.length !== 4) {
+      throw new Error('Invalid CSV format');
+    }
+
+    // Create an object to store student counts and their first names by field
+    const fieldCount = {};
+
+    // Process each student record
+    students.forEach((student) => {
+      const [firstname, lastname, age, field] = student.split(',');
+
+      // Skip invalid records (missing fields)
+      if (firstname && lastname && age && field) {
+        // Initialize field if it doesn't exist in fieldCount
+        if (!fieldCount[field]) {
+          fieldCount[field] = { count: 0, students: [] };
+        }
+        fieldCount[field].count++;
+        fieldCount[field].students.push(firstname);
       }
-      
-      // Increment the count for the field
-      counts[field]++;
-    }
-    
+    });
+
     // Log the total number of students
-    console.log(`Number of students: ${lines.length}`);
-    
-    // Log the number of students in each field and their first names
-    for (const field in counts) {
-      console.log(`Number of students in ${field}: ${counts[field]}. List: ${lines.filter(line => line.split(',')[3] === field).map(line => line.split(',')[0]).join(', ')}`);
-    }
-  } catch (error) {
-    // If an error occurs while reading the file, log an error message
-    console.error('Cannot load the database');
-    throw error;
+    const totalStudents = students.length;
+    console.log(`Number of students: ${totalStudents}`);
+
+    // Log the number of students in each field and their names
+    Object.entries(fieldCount).forEach(([field, data]) => {
+      console.log(`Number of students in ${field}: ${data.count}. List: ${data.students.join(', ')}`);
+    });
+
+  } catch (err) {
+    // If an error occurs (e.g., file doesn't exist), throw an error
+    throw new Error('Cannot load the database');
   }
 }
 
